@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -8,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      background: pink;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -28,35 +27,25 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 20px;
-      color: #d43f6b;
-      text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
     }
     button {
       padding: 12px 24px;
       font-size: 1rem;
       margin: 10px;
       border: none;
-      border-radius: 25px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    #yesBtn { 
-      background: #ff4d7e; 
-      color: white; 
-    }
-    #noBtn { 
-      background: #ffffff; 
-      color: #ff4d7e;
-    }
+    #yesBtn { background: #ff4d7e; color: white; }
+    #noBtn { background: #ffffff; }
     #card {
       position: absolute;
       width: 300px;
       height: 200px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 0 30px rgba(255,77,126,0.5);
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -64,17 +53,10 @@
       transition: 1.2s ease;
       cursor: pointer;
       z-index: 2;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
     }
     #card.hidden {
       opacity: 0;
       pointer-events: none;
-      animation: none;
     }
     .hidden {
       display: none;
@@ -83,13 +65,6 @@
       margin-top: 20px;
       width: 100%;
       max-width: 300px;
-      border-radius: 30px;
-    }
-    .thank-you {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255,77,126,0.3);
     }
   </style>
 </head>
@@ -99,10 +74,10 @@
   </div>
 
   <div id="container">
-    <img src="https://i.imgur.com/7I9XsW7.png" style="width:200px; margin-bottom:20px; border-radius: 50%; box-shadow: 0 0 20px rgba(255,77,126,0.5);" />
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAuAAAAV2CAIAAAAOC8NAAAAQAElEQVR4Aez9B5McOZYmih4ArkKLjEitmYpaFVmiu2umZ3Zm962f" style="width:200px; margin-bottom:20px;" />
     <h1 id="title">Будешь моей валентинкой?</h1>
-    <button id="yesBtn">Да 💝</button>
-    <button id="noBtn">Нет 😢</button>
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
   </div>
 
   <script>
@@ -112,10 +87,14 @@
     const noBtn = document.getElementById("noBtn");
     const title = document.getElementById("title");
 
-    // Создаем аудио элемент с правильной песней
+    // Создаем аудио элемент
     const audio = new Audio();
-    // Используем доступный источник с песней "Самая самая"
-    // В реальности нужно использовать прямую ссылку на MP3
+    audio.src = "https://music.yandex.ru/album/366094/track/3230586"; // Это ссылка на Яндекс.Музыку, но для прямого воспроизведения нужен прямой URL
+    
+    // Используем бесплатный источник с музыкой (для примера)
+    // В реальности нужно использовать прямую ссылку на MP3 файл
+    // Временно используем тестовый аудиофайл
+    audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // Замените на реальную ссылку на песню Егора Крида
     
     // Открытие валентинки
     card.addEventListener("click", () => {
@@ -149,34 +128,31 @@
     });
 
     yesBtn.addEventListener("click", () => {
-      // Показываем красивое оформление с музыкой
-      container.innerHTML = `
-        <div class="thank-you">
-          <h1 style="font-size: 2.5rem;">Спасибо! 💖</h1>
-          <p style="font-size: 1.2rem; color: #ff4d7e; margin: 20px 0;">Ты согласилась быть моей валентинкой!</p>
-          <div style="margin: 30px 0;">
-            <span style="font-size: 3rem;">❤️</span>
-            <span style="font-size: 3rem;">💕</span>
-            <span style="font-size: 3rem;">💗</span>
-          </div>
-          <p style="margin: 20px 0; color: #666;">Слушаем Егора Крида "Самая самая"</p>
-          <audio controls autoplay style="margin-top: 10px;">
-            <source src="https://eu.hitmo-top.com/song/47834988#">
+      // Пытаемся воспроизвести музыку
+      audio.play().catch(error => {
+        console.log("Автовоспроизведение заблокировано браузером:", error);
+        // Если автовоспроизведение заблокировано, показываем кнопку для ручного запуска
+        container.innerHTML = `
+          <h1>Спасибо! 💖</h1>
+          <p>Нажми播放 чтобы включить песню</p>
+          <button onclick="document.querySelector('audio').play()" style="padding: 10px 20px; background: #ff4d7e; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            ▶ Включить песню Егора Крида - Самая самая
+          </button>
+          <audio controls style="margin-top: 20px;">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
             Ваш браузер не поддерживает аудио
           </audio>
-          <p style="margin-top: 15px; font-size: 0.9rem; color: #999;">
-            Если музыка не играет, нажмите кнопку play ▶
-          </p>
-        </div>
-      `;
+        `;
+      });
       
-      // Попытка воспроизвести музыку автоматически
-      setTimeout(() => {
-        const audioElement = document.querySelector('audio');
-        if(audioElement) {
-          audioElement.play().catch(e => console.log("Автовоспроизведение заблокировано"));
-        }
-      }, 500);
+      container.innerHTML = `
+        <h1>Спасибо! 💖</h1>
+        <audio controls autoplay style="margin-top: 20px;">
+          <source src="https://eu.hitmo-top.com/song/47834988#">
+          Ваш браузер не поддерживает аудио
+        </audio>
+        <p style="margin-top: 10px; color: #666;">Егор Крид - Самая самая</p>
+      `;
     });
   </script>
 </body>
