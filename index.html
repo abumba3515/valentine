@@ -16,6 +16,13 @@
     }
     #container {
       text-align: center;
+      opacity: 0;
+      transition: 1s;
+      pointer-events: none;
+    }
+    #container.show {
+      opacity: 1;
+      pointer-events: all;
     }
     h1 {
       font-size: 2rem;
@@ -28,28 +35,55 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     #yesBtn { background: #ff4d7e; color: white; }
     #noBtn { background: #ffffff; }
+    #card {
+      position: absolute;
+      width: 300px;
+      height: 200px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6rem;
+      transition: 1.2s ease;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #card.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <div id="card" style="position:absolute; width:300px; height:200px; background:white; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.2); display:flex; justify-content:center; align-items:center; font-size:1.6rem; transition:1.2s ease; cursor:pointer;">
+  <div id="card">
     💌 Открыть валентинку
   </div>
 
-  <div id="container" style="opacity:0; transition:1s;">
-    <img src="изображение_2026-02-14_132011738.png" style="width:200px; margin-bottom:20px;" />
+  <div id="container">
+    <img src="" style="width:200px; margin-bottom:20px;" />
     <h1 id="title">Будешь моей валентинкой?</h1>
     <button id="yesBtn">Да</button>
     <button id="noBtn">Нет</button>
   </div>
 
   <script>
+    const card = document.getElementById("card");
+    const container = document.getElementById("container");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const title = document.getElementById("title");
-    const container = document.getElementById("container");
+
+    // Открытие валентинки
+    card.addEventListener("click", () => {
+      card.classList.add("hidden");
+      container.classList.add("show");
+    });
 
     const noTexts = [
       "Ты уверена?",
@@ -62,16 +96,16 @@
     let yesSize = 1;
 
     noBtn.addEventListener("click", () => {
-      // Move the Yes button randomly
+      // Случайное движение кнопки "Да"
       const x = Math.random() * 200 - 100;
       const y = Math.random() * 200 - 100;
       yesBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-      // Increase size
+      // Увеличение размера
       yesSize += 0.2;
       yesBtn.style.transform += ` scale(${yesSize})`;
 
-      // Change No button text
+      // Смена текста на кнопке "Нет"
       noBtn.textContent = noTexts[noIndex];
       noIndex = (noIndex + 1) % noTexts.length;
     });
