@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Валентинка</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #container {
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #yesBtn { background: #ff4d7e; color: white; }
+    #noBtn { background: #ffffff; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1 id="title">Будешь моей валентинкой?</h1>
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const title = document.getElementById("title");
+    const container = document.getElementById("container");
+
+    const noTexts = [
+      "Ты уверена?",
+      "Точно уверена?",
+      "Подумай ещё...",
+      "Может всё-таки да?",
+      "А если хорошо подумать?"
+    ];
+    let noIndex = 0;
+    let yesSize = 1;
+
+    noBtn.addEventListener("click", () => {
+      // Move the Yes button randomly
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      yesBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Increase size
+      yesSize += 0.2;
+      yesBtn.style.transform += ` scale(${yesSize})`;
+
+      // Change No button text
+      noBtn.textContent = noTexts[noIndex];
+      noIndex = (noIndex + 1) % noTexts.length;
+    });
+
+    yesBtn.addEventListener("click", () => {
+      container.innerHTML = "<h1>Спасибо! 💖</h1>";
+    });
+  </script>
+</body>
+</html>
