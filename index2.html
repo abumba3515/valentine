@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Валентинка</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #container {
+      text-align: center;
+      opacity: 0;
+      transition: 1s;
+      pointer-events: none;
+    }
+    #container.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #yesBtn { background: #ff4d7e; color: white; }
+    #noBtn { background: #ffffff; }
+    #card {
+      position: absolute;
+      width: 300px;
+      height: 200px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6rem;
+      transition: 1.2s ease;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #card.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    audio {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div id="card">
+    💌 Открыть валентинку
+  </div>
+
+  <div id="container">
+    <img src="изображение_2026-02-14_132011738.png" alt="emoji" style="width:200px; margin-bottom:20px;">
+    <h1 id="title">Будешь моей валентинкой?</h1>
+    <button id="yesBtn">Да</button>
+    <button id="noBtn">Нет</button>
+  </div>
+
+  <script>
+    const card = document.getElementById("card");
+    const container = document.getElementById("container");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const title = document.getElementById("title");
+
+    // Открытие валентинки
+    card.addEventListener("click", () => {
+      card.classList.add("hidden");
+      container.classList.add("show");
+    });
+
+    const noTexts = [
+      "Ты уверена?",
+      "Точно уверена?",
+      "Подумай ещё...",
+      "Может всё-таки да?",
+      "А если хорошо подумать?"
+    ];
+    let noIndex = 0;
+    let yesSize = 1;
+
+    noBtn.addEventListener("click", () => {
+      // Случайное движение кнопки "Да"
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      yesBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Увеличение размера
+      yesSize += 0.2;
+      yesBtn.style.transform += ` scale(${yesSize})`;
+
+      // Смена текста на кнопке "Нет"
+      noBtn.textContent = noTexts[noIndex];
+      noIndex = (noIndex + 1) % noTexts.length;
+    });
+
+    yesBtn.addEventListener("click", () => {
+      container.innerHTML = `
+        <h1>Спасибо! 💖</h1>
+        <audio controls autoplay>
+          <source src="Egor_Krid_-_Samaya-samaya_47834988.mp3" type="audio/mpeg">
+          Ваш браузер не поддерживает аудио
+        </audio>
+        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
+          Если музыка не играет, нажми кнопку play ▶
+        </p>
+      `;
+      
+      // Пытаемся воспроизвести автоматически
+      setTimeout(() => {
+        const audioElement = document.querySelector('audio');
+        if(audioElement) {
+          audioElement.play().catch(e => console.log("Автовоспроизведение заблокировано"));
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
